@@ -1,5 +1,6 @@
 package com.mysite.sbb;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,5 +124,22 @@ class SbbApplicationTests {
 		assertTrue(oa.isPresent());
 		Answer a = oa.get();
 		assertEquals(2, a.getQuestion().getId());
+	}
+
+	// Transactional을 통해 해당 문제 해결
+	@Transactional
+	@Test
+	@DisplayName("findByWhat")
+	void t11() {
+		Optional<Question> oq = this.questionRepository.findById(2);
+		// 이후에 DB 세션이 끊어져 이후에 오류 발생
+		assertTrue(oq.isPresent());
+		Question q = oq.get();
+
+		// 아래 코드에서 오류 발생
+		List<Answer> answerList = q.getAnswerList();
+
+		assertEquals(1, answerList.size());
+		assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
 	}
 }
