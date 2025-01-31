@@ -21,7 +21,7 @@ class SbbApplicationTests {
 	private AnswerRepository answerRepository;
 
 //	@Test
-//	@DisplayName("insert question")
+//	@DisplayName("insert Q")
 //	void t1() {
 //		Question q1 = new Question();
 //		q1.setSubject("sbb가 무엇인가요?");
@@ -37,7 +37,7 @@ class SbbApplicationTests {
 //	}
 
 	@Test
-	@DisplayName("findAll")
+	@DisplayName("findAll Q")
 	void t2() {
 		List<Question> all = this.questionRepository.findAll();
 		assertEquals(2, all.size());
@@ -47,7 +47,7 @@ class SbbApplicationTests {
 	}
 
 	@Test
-	@DisplayName("findById")
+	@DisplayName("findById Q")
 	void t3() {
 		Optional<Question> oq = this.questionRepository.findById(1);
 		if(oq.isPresent()) {
@@ -103,7 +103,7 @@ class SbbApplicationTests {
 	}
 
 	@Test
-	@DisplayName("insert answer")
+	@DisplayName("insert A")
 	void t9() {
 		Optional<Question> oq = this.questionRepository.findById(2);
 		assertTrue(oq.isPresent());
@@ -114,5 +114,14 @@ class SbbApplicationTests {
 		a.setQuestion(q);  // 어떤 질문의 답변인지 알기위해서 Question 객체가 필요하다.
 		a.setCreateDate(LocalDateTime.now());
 		this.answerRepository.save(a);
+	}
+
+	@Test
+	@DisplayName("findById A")
+	void t10() {
+		Optional<Answer> oa = this.answerRepository.findById(1);
+		assertTrue(oa.isPresent());
+		Answer a = oa.get();
+		assertEquals(2, a.getQuestion().getId());
 	}
 }
